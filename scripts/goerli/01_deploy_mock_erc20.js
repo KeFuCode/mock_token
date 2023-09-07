@@ -1,4 +1,4 @@
-const { Provider, Account, constants, json, CallData } = require("starknet");
+const { Provider, Account, constants, json, CallData, cairo } = require("starknet");
 const fs = require("fs");
 require('dotenv').config();
 
@@ -10,9 +10,18 @@ async function main() {
     const account0 = new Account(provider, ACCOUNT, PRIVATE_KEY);
 
     // Declare & deploy contract
-    const compiledSierra = json.parse(fs.readFileSync( "./target/dev/min_nft_market_MockERC20.sierra.json").toString( "ascii"));
-    const compiledCasm = json.parse(fs.readFileSync( "./target/dev/min_nft_market_MockERC20.casm.json").toString( "ascii"));
-    const deployResponse = await account0.declareAndDeploy({ contract: compiledSierra, casm: compiledCasm, });
+    const compiledSierra = json.parse(fs.readFileSync("./target/dev/min_nft_market_MockERC20.sierra.json").toString("ascii"));
+    const compiledCasm = json.parse(fs.readFileSync("./target/dev/min_nft_market_MockERC20.casm.json").toString("ascii"));
+
+    const contractConstructor = CallData.compile({
+        recipient: ACCOUNT,
+        initial_supply: cairo.uint256(100000000000000000000n)
+    });
+    const deployResponse = await account0.declareAndDeploy({ 
+        contract: compiledSierra, 
+        casm: compiledCasm, 
+        constructorCalldata: contractConstructor 
+    });
 
     console.log('✅ deployResponse:', deployResponse);
     console.log('✅ Router class hash:', deployResponse.declare.class_hash);
