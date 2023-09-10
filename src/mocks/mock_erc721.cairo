@@ -3,7 +3,7 @@ mod MockERC721 {
     use starknet::ContractAddress;
     use mock_token::utils::store_felt252_array::StoreFelt252Array;
     use openzeppelin::token::erc721::ERC721;
-    use alexandria_ascii::interger::ToAsciiTrait;
+    use alexandria_ascii::interger::ToAsciiArrayTrait;
     use alexandria_data_structures::array_ext::ArrayTraitExt;
 
     #[storage]
@@ -119,7 +119,7 @@ mod MockERC721 {
     #[internal]
     fn _set_token_uri(ref self: ContractState, token_id: u256) {
         let mut uri = self._base_uri.read();
-        let mut token_id_felt252: Array<felt252> = token_id.to_ascii();
+        let mut token_id_felt252: Array<felt252> = token_id.to_ascii_array();
         uri.append_all(ref token_id_felt252);
 
         let unsafe_state = ERC721::unsafe_new_contract_state();
