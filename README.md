@@ -8,7 +8,7 @@ ERC20 and ERC721 contracts on Starknet using Cairo (version 2.2.0).
 
 ## Installation
 ```base
-git clone
+git clone https://github.com/KeFuCode/mock_token.git
 yarn 
 ```
 
