@@ -10,8 +10,8 @@ async function main() {
     const account0 = new Account(provider, ACCOUNT, PRIVATE_KEY);
 
     // Declare & deploy contract
-    const compiledSierra = json.parse(fs.readFileSync( "./target/dev/min_nft_market_MockERC721.sierra.json").toString( "ascii"));
-    const compiledCasm = json.parse(fs.readFileSync( "./target/dev/min_nft_market_MockERC721.casm.json").toString( "ascii"));
+    const compiledSierra = json.parse(fs.readFileSync( "./target/dev/mock_token_MockERC721.sierra.json").toString( "ascii"));
+    const compiledCasm = json.parse(fs.readFileSync( "./target/dev/mock_token_MockERC721.casm.json").toString( "ascii"));
     const deployResponse = await account0.declareAndDeploy({ contract: compiledSierra, casm: compiledCasm, });
 
     console.log('✅ deployResponse:', deployResponse);
